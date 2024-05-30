@@ -1,40 +1,38 @@
 # frozen_string_literal: true
 
-require_relative "lib/skeleton_rust_gem/version"
+lib = File.expand_path("lib", __dir__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require "skeleton_rust_gem/version"
 
 Gem::Specification.new do |spec|
   spec.name = "skeleton_rust_gem"
   spec.version = SkeletonRustGem::VERSION
-  spec.authors = ["Guillaume Yziquel"]
-
   spec.summary = "Skeletal rust gem."
   spec.description = spec.summary
-  spec.homepage = "https://www.perdu.com"
-  spec.required_ruby_version = ">= 3.0.0"
+  spec.authors = ["Guillaume Yziquel"]
+  spec.license = "MIT"
+  spec.homepage = "https://github.com/gl-yziquel"
+
+  spec.required_ruby_version = ">= 3.1"
   spec.required_rubygems_version = ">= 3.3.11"
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
+  spec.files = ["README.md", "Cargo.lock", "Cargo.toml"]
+  spec.files += Dir.glob("lib/**/*.rb")
+  spec.files += Dir.glob("ext/**/*.{rs,toml,lock,rb}")
+  spec.bindir = "exe"
+  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
+ 
+  spec.require_paths = ["lib"]
+  spec.extensions = ["ext/skeleton_rust_gem/extconf.rb"]
 
+  spec.metadata["allowed_push_host"] = spec.homepage
   spec.metadata["homepage_uri"] = spec.homepage
   spec.metadata["source_code_uri"] = spec.homepage
   spec.metadata["changelog_uri"] = spec.homepage
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files = Dir.chdir(__dir__) do
-    `git ls-files -z`.split("\x0").reject do |f|
-      (File.expand_path(f) == __FILE__) ||
-        f.start_with?(*%w[bin/ test/ spec/ features/ .git appveyor Gemfile])
-    end
-  end
-  spec.files -= ['Justfile']
-  spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
-  spec.extensions = ["ext/skeleton_rust_gem/Cargo.toml"]
-
-  # Uncomment to register a new dependency of your gem
-  # spec.add_dependency "example-gem", "~> 1.0"
+  spec.add_development_dependency "rake", "~> 13.0"
+  spec.add_development_dependency "rake-compiler", "~> 1.2"
+  spec.add_development_dependency "rb_sys", "~> 0.9"
 
   # For more information and examples about making a new gem, check out our
   # guide at: https://bundler.io/guides/creating_gem.html
