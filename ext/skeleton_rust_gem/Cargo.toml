@@ -1,0 +1,12 @@
+[package]
+name = "skeleton_rust_gem"
+version = "0.0.1"
+edition = "2021"
+authors = ["Guillaume Yziquel <guillaume@vizyon.ai>"]
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+magnus = { version = "0.6.2" }

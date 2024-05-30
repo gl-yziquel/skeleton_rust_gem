@@ -1,0 +1,9 @@
+local.just
+Gemfile.lock
+Cargo.lock
+
+pkg/
+tmp/
+target/
+
+lib/**/*.so
